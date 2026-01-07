@@ -1,19 +1,12 @@
 import { useState } from 'react';
 import { useDemands, useMonthlyMetrics } from '@/hooks/useDemands';
 import { MetricCard } from './MetricCard';
-import { DemandCard } from './DemandCard';
+import { KanbanBoard } from './KanbanBoard';
 import { CreateDemandDialog } from './CreateDemandDialog';
 import { MonthlyReport } from './MonthlyReport';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { 
   ListTodo, 
   CheckCircle2, 
@@ -24,20 +17,11 @@ import {
   BarChart3,
   Inbox
 } from 'lucide-react';
-import { DemandStatus } from '@/types/demand';
 
 export function Dashboard() {
   const { demands, isLoading } = useDemands();
   const { metrics } = useMonthlyMetrics();
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<DemandStatus | 'all'>('all');
-
-  const filteredDemands = demands.filter(demand => {
-    const matchesSearch = demand.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      demand.description?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || demand.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -91,67 +75,41 @@ export function Dashboard() {
               />
             </div>
 
-            {/* Filters */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Buscar demandas..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Select 
-                value={statusFilter} 
-                onValueChange={(value) => setStatusFilter(value as DemandStatus | 'all')}
-              >
-                <SelectTrigger className="w-full sm:w-48">
-                  <SelectValue placeholder="Filtrar por status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos os status</SelectItem>
-                  <SelectItem value="open">Abertas</SelectItem>
-                  <SelectItem value="in_progress">Em Andamento</SelectItem>
-                  <SelectItem value="completed">Concluídas</SelectItem>
-                </SelectContent>
-              </Select>
+            {/* Search */}
+            <div className="relative max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder="Buscar demandas..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
             </div>
 
-            {/* Demands List */}
-            <div className="space-y-4">
-              {isLoading ? (
-                <div className="flex items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            {/* Kanban Board */}
+            {isLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              </div>
+            ) : demands.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4">
+                  <Inbox className="w-8 h-8 text-muted-foreground" />
                 </div>
-              ) : filteredDemands.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4">
-                    <Inbox className="w-8 h-8 text-muted-foreground" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">
-                    {demands.length === 0 ? 'Nenhuma demanda ainda' : 'Nenhum resultado encontrado'}
-                  </h3>
-                  <p className="text-muted-foreground mb-4">
-                    {demands.length === 0 
-                      ? 'Crie sua primeira demanda para começar a organizar suas tarefas.'
-                      : 'Tente ajustar os filtros ou a busca.'}
-                  </p>
-                  {demands.length === 0 && (
-                    <CreateDemandDialog>
-                      <Button>
-                        <Plus className="w-4 h-4 mr-2" />
-                        Criar Primeira Demanda
-                      </Button>
-                    </CreateDemandDialog>
-                  )}
-                </div>
-              ) : (
-                filteredDemands.map(demand => (
-                  <DemandCard key={demand.id} demand={demand} />
-                ))
-              )}
-            </div>
+                <h3 className="font-semibold text-lg mb-2">Nenhuma demanda ainda</h3>
+                <p className="text-muted-foreground mb-4">
+                  Crie sua primeira demanda para começar a organizar suas tarefas.
+                </p>
+                <CreateDemandDialog>
+                  <Button>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Criar Primeira Demanda
+                  </Button>
+                </CreateDemandDialog>
+              </div>
+            ) : (
+              <KanbanBoard demands={demands} searchQuery={searchQuery} />
+            )}
           </TabsContent>
 
           <TabsContent value="report">
