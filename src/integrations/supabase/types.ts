@@ -21,6 +21,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          priority: Database["public"]["Enums"]["demand_priority"]
           status: Database["public"]["Enums"]["demand_status"]
           title: string
           updated_at: string
@@ -32,6 +33,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          priority?: Database["public"]["Enums"]["demand_priority"]
           status?: Database["public"]["Enums"]["demand_status"]
           title: string
           updated_at?: string
@@ -43,6 +45,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          priority?: Database["public"]["Enums"]["demand_priority"]
           status?: Database["public"]["Enums"]["demand_status"]
           title?: string
           updated_at?: string
@@ -132,6 +135,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      demand_priority: "low" | "medium" | "high"
       demand_status: "open" | "in_progress" | "completed"
     }
     CompositeTypes: {
@@ -260,6 +264,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      demand_priority: ["low", "medium", "high"],
       demand_status: ["open", "in_progress", "completed"],
     },
   },

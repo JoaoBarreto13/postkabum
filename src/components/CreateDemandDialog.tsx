@@ -10,8 +10,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Plus, X } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Plus, X, AlertTriangle, Minus, ArrowDown } from 'lucide-react';
 import { useDemands } from '@/hooks/useDemands';
+import { DemandPriority } from '@/types/demand';
 
 interface CreateDemandDialogProps {
   children?: React.ReactNode;
@@ -22,6 +30,7 @@ export function CreateDemandDialog({ children }: CreateDemandDialogProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
+  const [priority, setPriority] = useState<DemandPriority>('medium');
   const [subtasks, setSubtasks] = useState<string[]>([]);
   const [newSubtask, setNewSubtask] = useState('');
 
@@ -46,6 +55,7 @@ export function CreateDemandDialog({ children }: CreateDemandDialogProps) {
       title: title.trim(),
       description: description.trim() || undefined,
       category: category.trim() || undefined,
+      priority,
       subtasks: subtasks.length > 0 ? subtasks : undefined,
     });
 
@@ -53,6 +63,7 @@ export function CreateDemandDialog({ children }: CreateDemandDialogProps) {
     setTitle('');
     setDescription('');
     setCategory('');
+    setPriority('medium');
     setSubtasks([]);
     setOpen(false);
   };
@@ -110,6 +121,35 @@ export function CreateDemandDialog({ children }: CreateDemandDialogProps) {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Prioridade</Label>
+            <Select value={priority} onValueChange={(value: DemandPriority) => setPriority(value)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="high">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-red-500" />
+                    <span>Alta</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="medium">
+                  <div className="flex items-center gap-2">
+                    <Minus className="w-4 h-4 text-amber-500" />
+                    <span>Média</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="low">
+                  <div className="flex items-center gap-2">
+                    <ArrowDown className="w-4 h-4 text-emerald-500" />
+                    <span>Baixa</span>
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">

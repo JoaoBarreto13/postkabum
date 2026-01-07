@@ -1,4 +1,5 @@
 export type DemandStatus = 'open' | 'in_progress' | 'completed';
+export type DemandPriority = 'low' | 'medium' | 'high';
 
 export interface Subtask {
   id: string;
@@ -15,6 +16,7 @@ export interface Demand {
   title: string;
   description: string | null;
   status: DemandStatus;
+  priority: DemandPriority;
   category: string | null;
   created_at: string;
   updated_at: string;
