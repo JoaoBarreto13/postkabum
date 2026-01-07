@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Demand, Subtask, DemandStatus, DashboardMetrics } from '@/types/demand';
+import { Demand, Subtask, DemandStatus, DemandPriority, DashboardMetrics } from '@/types/demand';
 import { useAuth } from './useAuth';
 import { toast } from '@/hooks/use-toast';
 
@@ -42,7 +42,7 @@ export function useDemands() {
   });
 
   const createDemand = useMutation({
-    mutationFn: async (data: { title: string; description?: string; category?: string; subtasks?: string[] }) => {
+    mutationFn: async (data: { title: string; description?: string; category?: string; priority?: DemandPriority; subtasks?: string[] }) => {
       if (!user) throw new Error('Not authenticated');
 
       const { data: demand, error } = await supabase
@@ -52,6 +52,7 @@ export function useDemands() {
           title: data.title,
           description: data.description || null,
           category: data.category || null,
+          priority: data.priority || 'medium',
           status: 'open' as DemandStatus,
         })
         .select()
@@ -86,7 +87,7 @@ export function useDemands() {
   });
 
   const updateDemand = useMutation({
-    mutationFn: async (data: { id: string; title?: string; description?: string; status?: DemandStatus; category?: string }) => {
+    mutationFn: async (data: { id: string; title?: string; description?: string; status?: DemandStatus; category?: string; priority?: DemandPriority }) => {
       const updateData: Record<string, unknown> = {};
       if (data.title !== undefined) updateData.title = data.title;
       if (data.description !== undefined) updateData.description = data.description;
@@ -97,6 +98,7 @@ export function useDemands() {
         }
       }
       if (data.category !== undefined) updateData.category = data.category;
+      if (data.priority !== undefined) updateData.priority = data.priority;
 
       const { error } = await supabase
         .from('demands')

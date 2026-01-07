@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
-import { Demand, DemandStatus } from '@/types/demand';
+import { Demand, DemandPriority } from '@/types/demand';
 import { ProgressBar } from './ProgressBar';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,10 @@ import {
   MoreHorizontal, 
   Plus, 
   Trash2,
-  GripVertical
+  GripVertical,
+  AlertTriangle,
+  Minus,
+  ArrowDown
 } from 'lucide-react';
 import { useDemands } from '@/hooks/useDemands';
 import { cn } from '@/lib/utils';
@@ -20,6 +23,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 
 interface KanbanCardProps {
@@ -27,21 +32,45 @@ interface KanbanCardProps {
   index: number;
 }
 
-const statusColors: Record<DemandStatus, string> = {
-  open: 'bg-amber-50 border-l-amber-400 dark:bg-amber-950/30 dark:border-l-amber-500',
-  in_progress: 'bg-blue-50 border-l-blue-400 dark:bg-blue-950/30 dark:border-l-blue-500',
-  completed: 'bg-emerald-50 border-l-emerald-400 dark:bg-emerald-950/30 dark:border-l-emerald-500',
+// Priority-based Post-it colors (pastel tones)
+const priorityColors: Record<DemandPriority, {
+  bg: string;
+  border: string;
+  icon: React.ReactNode;
+  label: string;
+}> = {
+  high: {
+    bg: 'bg-red-100 dark:bg-red-950/40',
+    border: 'border-l-red-400 dark:border-l-red-500',
+    icon: <AlertTriangle className="w-3 h-3 text-red-500" />,
+    label: 'Alta',
+  },
+  medium: {
+    bg: 'bg-amber-100 dark:bg-amber-950/40',
+    border: 'border-l-amber-400 dark:border-l-amber-500',
+    icon: <Minus className="w-3 h-3 text-amber-500" />,
+    label: 'Média',
+  },
+  low: {
+    bg: 'bg-emerald-100 dark:bg-emerald-950/40',
+    border: 'border-l-emerald-400 dark:border-l-emerald-500',
+    icon: <ArrowDown className="w-3 h-3 text-emerald-500" />,
+    label: 'Baixa',
+  },
 };
 
 export function KanbanCard({ demand, index }: KanbanCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [newSubtaskDescription, setNewSubtaskDescription] = useState('');
-  const { deleteDemand, addSubtask, toggleSubtask, deleteSubtask } = useDemands();
+  const { deleteDemand, updateDemand, addSubtask, toggleSubtask, deleteSubtask } = useDemands();
 
   const subtasks = demand.subtasks || [];
   const completedSubtasks = subtasks.filter(s => s.is_completed).length;
   const totalSubtasks = subtasks.length;
   const progress = totalSubtasks > 0 ? Math.round((completedSubtasks / totalSubtasks) * 100) : 0;
+
+  const priority = demand.priority || 'medium';
+  const priorityConfig = priorityColors[priority];
 
   const handleAddSubtask = () => {
     if (!newSubtaskDescription.trim()) return;
@@ -55,6 +84,10 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
     }
   };
 
+  const handlePriorityChange = (newPriority: DemandPriority) => {
+    updateDemand.mutate({ id: demand.id, priority: newPriority });
+  };
+
   return (
     <Draggable draggableId={demand.id} index={index}>
       {(provided, snapshot) => (
@@ -63,8 +96,9 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
           {...provided.draggableProps}
           className={cn(
             "rounded-lg border-l-4 shadow-md transition-all duration-200 mb-3",
-            "bg-card hover:shadow-lg",
-            statusColors[demand.status],
+            "hover:shadow-lg",
+            priorityConfig.bg,
+            priorityConfig.border,
             snapshot.isDragging && "shadow-xl rotate-2 scale-105"
           )}
         >
@@ -102,6 +136,23 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                      <DropdownMenuLabel className="text-xs">Prioridade</DropdownMenuLabel>
+                      <DropdownMenuItem onClick={() => handlePriorityChange('high')}>
+                        <AlertTriangle className="w-4 h-4 mr-2 text-red-500" />
+                        Alta
+                        {priority === 'high' && <span className="ml-auto text-xs">✓</span>}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handlePriorityChange('medium')}>
+                        <Minus className="w-4 h-4 mr-2 text-amber-500" />
+                        Média
+                        {priority === 'medium' && <span className="ml-auto text-xs">✓</span>}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handlePriorityChange('low')}>
+                        <ArrowDown className="w-4 h-4 mr-2 text-emerald-500" />
+                        Baixa
+                        {priority === 'low' && <span className="ml-auto text-xs">✓</span>}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem 
                         onClick={() => deleteDemand.mutate(demand.id)}
                         className="text-destructive focus:text-destructive"
@@ -111,6 +162,14 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
+                </div>
+
+                {/* Priority indicator */}
+                <div className="flex items-center gap-1 mt-1">
+                  {priorityConfig.icon}
+                  <span className="text-[10px] font-medium text-muted-foreground">
+                    {priorityConfig.label}
+                  </span>
                 </div>
 
                 {/* Progress */}
