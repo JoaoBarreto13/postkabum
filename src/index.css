@@ -2,17 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* DemandFlow Design System - Clean, Professional, Metric-Focused */
+/* Post it in Kabum - Design System */
+/* Modern, Clean, Professional with Post-it inspired accents */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* Base Colors - Clean Gray Scale */
-    --background: 220 20% 97%;
+    /* Base Colors - Warm Gray Scale */
+    --background: 45 20% 97%;
     --foreground: 222 47% 11%;
 
-    /* Cards - Pure White with Depth */
+    /* Cards - Warm White with Depth */
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
 
@@ -20,103 +21,103 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    /* Primary - Deep Indigo */
-    --primary: 234 89% 58%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary - Golden Yellow (Post-it inspired) */
+    --primary: 45 93% 47%;
+    --primary-foreground: 222 47% 11%;
 
-    /* Secondary - Soft Blue Gray */
-    --secondary: 220 14% 96%;
+    /* Secondary - Soft Warm Gray */
+    --secondary: 40 20% 96%;
     --secondary-foreground: 222 47% 11%;
 
-    /* Muted - Subtle Gray */
-    --muted: 220 14% 96%;
+    /* Muted - Subtle Warm Gray */
+    --muted: 40 15% 95%;
     --muted-foreground: 220 9% 46%;
 
-    /* Accent - Light Blue */
-    --accent: 220 14% 96%;
+    /* Accent - Warm Cream */
+    --accent: 45 30% 94%;
     --accent-foreground: 222 47% 11%;
 
     /* Status Colors */
-    --success: 142 71% 45%;
+    --success: 152 69% 41%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-    --info: 199 89% 48%;
+    --warning-foreground: 222 47% 11%;
+    --info: 217 91% 60%;
     --info-foreground: 0 0% 100%;
 
     /* Destructive */
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 234 89% 58%;
+    --border: 40 15% 89%;
+    --input: 40 15% 89%;
+    --ring: 45 93% 47%;
 
     --radius: 0.75rem;
 
     /* Chart Colors */
-    --chart-1: 234 89% 58%;
-    --chart-2: 142 71% 45%;
+    --chart-1: 45 93% 47%;
+    --chart-2: 152 69% 41%;
     --chart-3: 38 92% 50%;
-    --chart-4: 199 89% 48%;
+    --chart-4: 217 91% 60%;
     --chart-5: 280 65% 60%;
 
     /* Sidebar */
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 234 89% 58%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
+    --sidebar-primary: 45 93% 47%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 40 20% 96%;
     --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 234 89% 58%;
+    --sidebar-border: 40 15% 89%;
+    --sidebar-ring: 45 93% 47%;
   }
 
   .dark {
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
 
-    --card: 224 71% 6%;
+    --card: 224 71% 7%;
     --card-foreground: 213 31% 91%;
 
-    --popover: 224 71% 6%;
+    --popover: 224 71% 7%;
     --popover-foreground: 213 31% 91%;
 
-    --primary: 234 89% 64%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 45 93% 52%;
+    --primary-foreground: 222 47% 11%;
 
-    --secondary: 222 47% 15%;
+    --secondary: 222 47% 13%;
     --secondary-foreground: 213 31% 91%;
 
-    --muted: 222 47% 15%;
+    --muted: 222 47% 13%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 222 47% 15%;
+    --accent: 222 47% 13%;
     --accent-foreground: 213 31% 91%;
 
-    --success: 142 71% 45%;
+    --success: 152 69% 41%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-    --info: 199 89% 48%;
+    --warning-foreground: 222 47% 11%;
+    --info: 217 91% 60%;
     --info-foreground: 0 0% 100%;
 
-    --destructive: 0 62% 30%;
+    --destructive: 0 62% 40%;
     --destructive-foreground: 213 31% 91%;
 
-    --border: 222 47% 15%;
-    --input: 222 47% 15%;
-    --ring: 234 89% 64%;
+    --border: 222 47% 16%;
+    --input: 222 47% 16%;
+    --ring: 45 93% 52%;
 
-    --sidebar-background: 224 71% 6%;
+    --sidebar-background: 224 71% 7%;
     --sidebar-foreground: 213 31% 91%;
-    --sidebar-primary: 234 89% 64%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 47% 15%;
+    --sidebar-primary: 45 93% 52%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 222 47% 13%;
     --sidebar-accent-foreground: 213 31% 91%;
-    --sidebar-border: 222 47% 15%;
-    --sidebar-ring: 234 89% 64%;
+    --sidebar-border: 222 47% 16%;
+    --sidebar-ring: 45 93% 52%;
   }
 }
 
@@ -126,18 +127,22 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm;
+    @apply bg-card/90 backdrop-blur-md border border-border/40 shadow-sm;
   }
 
   .metric-card {
-    @apply bg-card rounded-xl border border-border/50 shadow-sm hover:shadow-md transition-shadow duration-200;
+    @apply bg-card rounded-2xl border border-border/40 shadow-sm hover:shadow-md hover:border-border/60 transition-all duration-300;
   }
 
   .status-open {
@@ -157,7 +162,22 @@
   }
 
   .progress-fill {
-    @apply h-full rounded-full bg-gradient-to-r from-primary to-primary/80 transition-all duration-500;
+    @apply h-full rounded-full bg-gradient-to-r from-primary via-primary to-primary/80 transition-all duration-500;
+  }
+
+  /* Post-it Card Styles */
+  .postit-card {
+    @apply rounded-xl shadow-md hover:shadow-lg transition-all duration-200;
+    box-shadow: 
+      0 2px 8px -2px rgba(0, 0, 0, 0.08),
+      0 4px 16px -4px rgba(0, 0, 0, 0.06);
+  }
+
+  .postit-card:hover {
+    box-shadow: 
+      0 4px 12px -2px rgba(0, 0, 0, 0.12),
+      0 8px 24px -4px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
   }
 }
 

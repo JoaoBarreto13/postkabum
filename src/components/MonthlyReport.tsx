@@ -43,22 +43,25 @@ export function MonthlyReport() {
   const currentMonthName = format(new Date(), 'MMMM yyyy', { locale: ptBR });
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold">Relatório Mensal</h2>
-          <p className="text-muted-foreground capitalize">{currentMonthName}</p>
+          <h2 className="text-2xl font-bold tracking-tight">Relatório Mensal</h2>
+          <p className="text-muted-foreground capitalize text-lg">{currentMonthName}</p>
         </div>
         {improvement !== 0 && (
-          <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${
-            improvement >= 0 ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'
+          <div className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full font-semibold shadow-sm ${
+            improvement >= 0 
+              ? 'bg-gradient-to-r from-success/15 to-success/10 text-success ring-1 ring-success/20' 
+              : 'bg-gradient-to-r from-destructive/15 to-destructive/10 text-destructive ring-1 ring-destructive/20'
           }`}>
             {improvement >= 0 ? (
               <TrendingUp className="w-5 h-5" />
             ) : (
               <TrendingDown className="w-5 h-5" />
             )}
-            <span className="font-semibold">
+            <span>
               {improvement >= 0 ? '+' : ''}{improvement}% vs mês anterior
             </span>
           </div>
@@ -66,7 +69,7 @@ export function MonthlyReport() {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <MetricCard
           title="Total de Demandas"
           value={metrics.totalDemands}
@@ -106,37 +109,42 @@ export function MonthlyReport() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Bar Chart - Demands Created vs Completed */}
         <div className="metric-card p-6">
-          <h3 className="font-semibold mb-4">Demandas por Mês</h3>
-          <div className="h-64">
+          <h3 className="font-semibold text-lg mb-5">Demandas por Mês</h3>
+          <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <BarChart data={chartData} barCategoryGap="20%">
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                 <XAxis 
                   dataKey="month" 
                   stroke="hsl(var(--muted-foreground))"
                   fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <YAxis 
                   stroke="hsl(var(--muted-foreground))"
                   fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--card))',
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                   }}
                 />
                 <Bar 
                   dataKey="criadas" 
                   fill="hsl(var(--primary))" 
-                  radius={[4, 4, 0, 0]}
+                  radius={[6, 6, 0, 0]}
                   name="Criadas"
                 />
                 <Bar 
                   dataKey="concluidas" 
                   fill="hsl(var(--success))" 
-                  radius={[4, 4, 0, 0]}
+                  radius={[6, 6, 0, 0]}
                   name="Concluídas"
                 />
               </BarChart>
@@ -146,26 +154,31 @@ export function MonthlyReport() {
 
         {/* Line Chart - Completion Rate Trend */}
         <div className="metric-card p-6">
-          <h3 className="font-semibold mb-4">Taxa de Conclusão (%)</h3>
-          <div className="h-64">
+          <h3 className="font-semibold text-lg mb-5">Taxa de Conclusão (%)</h3>
+          <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                 <XAxis 
                   dataKey="month" 
                   stroke="hsl(var(--muted-foreground))"
                   fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <YAxis 
                   stroke="hsl(var(--muted-foreground))"
                   fontSize={12}
                   domain={[0, 100]}
+                  tickLine={false}
+                  axisLine={false}
                 />
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--card))',
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                   }}
                   formatter={(value) => [`${value}%`, 'Taxa']}
                 />
@@ -174,8 +187,8 @@ export function MonthlyReport() {
                   dataKey="taxa" 
                   stroke="hsl(var(--primary))" 
                   strokeWidth={3}
-                  dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2 }}
-                  activeDot={{ r: 6, fill: 'hsl(var(--primary))' }}
+                  dot={{ fill: 'hsl(var(--card))', stroke: 'hsl(var(--primary))', strokeWidth: 3, r: 5 }}
+                  activeDot={{ r: 7, fill: 'hsl(var(--primary))', stroke: 'hsl(var(--card))', strokeWidth: 2 }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -184,9 +197,9 @@ export function MonthlyReport() {
       </div>
 
       {/* Summary Text */}
-      <div className="metric-card p-6 bg-gradient-to-br from-primary/5 to-transparent">
-        <h3 className="font-semibold mb-2">Resumo da Melhoria Contínua</h3>
-        <p className="text-muted-foreground">
+      <div className="metric-card p-6 bg-gradient-to-br from-primary/8 via-primary/4 to-transparent border-primary/20">
+        <h3 className="font-semibold text-lg mb-3">📈 Resumo da Melhoria Contínua</h3>
+        <p className="text-muted-foreground leading-relaxed">
           {metrics.totalDemands === 0 ? (
             'Nenhuma demanda criada neste mês. Comece criando sua primeira demanda!'
           ) : improvement > 0 ? (
