@@ -180,7 +180,7 @@ export function DemandCard({ demand }: DemandCardProps) {
                 <Checkbox
                   checked={subtask.is_completed}
                   onCheckedChange={(checked) => 
-                    toggleSubtask.mutate({ id: subtask.id, is_completed: !!checked })
+                    toggleSubtask.mutate({ id: subtask.id, is_completed: !!checked, demand_id: demand.id })
                   }
                 />
                 <span className={cn(
