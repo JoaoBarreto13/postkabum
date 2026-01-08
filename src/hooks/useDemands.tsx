@@ -155,13 +155,32 @@ export function useDemands() {
   });
 
   const toggleSubtask = useMutation({
-    mutationFn: async (data: { id: string; is_completed: boolean }) => {
+    mutationFn: async (data: { id: string; is_completed: boolean; demand_id: string }) => {
       const { error } = await supabase
         .from('subtasks')
         .update({ is_completed: data.is_completed })
         .eq('id', data.id);
 
       if (error) throw error;
+
+      // Get current demand status
+      const { data: demand, error: demandError } = await supabase
+        .from('demands')
+        .select('status')
+        .eq('id', data.demand_id)
+        .single();
+
+      if (demandError) throw demandError;
+
+      // If demand is "open", move it to "in_progress" when any subtask is toggled
+      if (demand.status === 'open') {
+        const { error: updateError } = await supabase
+          .from('demands')
+          .update({ status: 'in_progress' })
+          .eq('id', data.demand_id);
+
+        if (updateError) throw updateError;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['demands'] });

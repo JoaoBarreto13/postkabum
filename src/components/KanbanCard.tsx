@@ -4,12 +4,10 @@ import { Demand, DemandPriority } from '@/types/demand';
 import { ProgressBar } from './ProgressBar';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { 
-  ChevronDown, 
-  ChevronRight, 
-  MoreHorizontal, 
-  Plus, 
+  ChevronDown,
+  ChevronRight,
+  MoreHorizontal,
   Trash2,
   GripVertical,
   AlertTriangle,
@@ -61,8 +59,7 @@ const priorityColors: Record<DemandPriority, {
 
 export function KanbanCard({ demand, index }: KanbanCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [newSubtaskDescription, setNewSubtaskDescription] = useState('');
-  const { deleteDemand, updateDemand, addSubtask, toggleSubtask, deleteSubtask } = useDemands();
+  const { deleteDemand, updateDemand, toggleSubtask, deleteSubtask } = useDemands();
 
   const subtasks = demand.subtasks || [];
   const completedSubtasks = subtasks.filter(s => s.is_completed).length;
@@ -71,18 +68,6 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
 
   const priority = demand.priority || 'medium';
   const priorityConfig = priorityColors[priority];
-
-  const handleAddSubtask = () => {
-    if (!newSubtaskDescription.trim()) return;
-    addSubtask.mutate({ demand_id: demand.id, description: newSubtaskDescription });
-    setNewSubtaskDescription('');
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleAddSubtask();
-    }
-  };
 
   const handlePriorityChange = (newPriority: DemandPriority) => {
     updateDemand.mutate({ id: demand.id, priority: newPriority });
@@ -217,7 +202,7 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
                       <Checkbox
                         checked={subtask.is_completed}
                         onCheckedChange={(checked) => 
-                          toggleSubtask.mutate({ id: subtask.id, is_completed: !!checked })
+                          toggleSubtask.mutate({ id: subtask.id, is_completed: !!checked, demand_id: demand.id })
                         }
                         className="h-3.5 w-3.5"
                       />
@@ -238,26 +223,6 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
                     </div>
                   ))
                 )}
-
-                {/* Add Subtask */}
-                <div className="flex items-center gap-1.5 pt-1">
-                  <Plus className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
-                  <Input
-                    placeholder="Nova subtarefa..."
-                    value={newSubtaskDescription}
-                    onChange={(e) => setNewSubtaskDescription(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    className="h-7 text-xs bg-background"
-                  />
-                  <Button 
-                    size="sm" 
-                    onClick={handleAddSubtask}
-                    disabled={!newSubtaskDescription.trim()}
-                    className="h-7 text-xs px-2"
-                  >
-                    +
-                  </Button>
-                </div>
               </div>
             </div>
           )}
