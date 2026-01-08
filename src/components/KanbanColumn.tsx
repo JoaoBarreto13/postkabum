@@ -1,5 +1,6 @@
+import { useMemo } from 'react';
 import { Droppable } from '@hello-pangea/dnd';
-import { Demand, DemandStatus } from '@/types/demand';
+import { Demand, DemandStatus, DemandPriority } from '@/types/demand';
 import { KanbanCard } from './KanbanCard';
 import { cn } from '@/lib/utils';
 import { Circle, Clock, CheckCircle2 } from 'lucide-react';
@@ -8,6 +9,13 @@ interface KanbanColumnProps {
   status: DemandStatus;
   demands: Demand[];
 }
+
+// Priority order: high = 0, medium = 1, low = 2
+const priorityOrder: Record<DemandPriority, number> = {
+  high: 0,
+  medium: 1,
+  low: 2,
+};
 
 const columnConfig: Record<DemandStatus, { 
   title: string; 
@@ -38,6 +46,15 @@ const columnConfig: Record<DemandStatus, {
 export function KanbanColumn({ status, demands }: KanbanColumnProps) {
   const config = columnConfig[status];
 
+  // Sort demands by priority: high → medium → low
+  const sortedDemands = useMemo(() => {
+    return [...demands].sort((a, b) => {
+      const priorityA = priorityOrder[a.priority || 'medium'];
+      const priorityB = priorityOrder[b.priority || 'medium'];
+      return priorityA - priorityB;
+    });
+  }, [demands]);
+
   return (
     <div className="flex flex-col min-w-[280px] sm:min-w-[320px] max-w-[400px] flex-1">
       {/* Column Header */}
@@ -64,12 +81,12 @@ export function KanbanColumn({ status, demands }: KanbanColumnProps) {
               snapshot.isDraggingOver && "ring-2 ring-primary/30 bg-primary/5"
             )}
           >
-            {demands.length === 0 && !snapshot.isDraggingOver ? (
+            {sortedDemands.length === 0 && !snapshot.isDraggingOver ? (
               <div className="flex items-center justify-center h-24 text-muted-foreground text-sm">
                 Arraste demandas aqui
               </div>
             ) : (
-              demands.map((demand, index) => (
+              sortedDemands.map((demand, index) => (
                 <KanbanCard key={demand.id} demand={demand} index={index} />
               ))
             )}
