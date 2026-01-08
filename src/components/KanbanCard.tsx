@@ -192,60 +192,72 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
             </div>
           </div>
 
-          {/* Expanded - Subtasks Checklist */}
+          {/* Expanded - Description & Subtasks */}
           {isExpanded && (
-            <div className="border-t border-border/50 px-3 py-2 bg-background/50 space-y-2">
-              {subtasks.length === 0 ? (
-                <p className="text-xs text-muted-foreground italic">Nenhuma subtarefa</p>
-              ) : (
-                subtasks.map((subtask) => (
-                  <div
-                    key={subtask.id}
-                    className="flex items-center gap-2 group"
-                  >
-                    <Checkbox
-                      checked={subtask.is_completed}
-                      onCheckedChange={(checked) => 
-                        toggleSubtask.mutate({ id: subtask.id, is_completed: !!checked })
-                      }
-                      className="h-3.5 w-3.5"
-                    />
-                    <span className={cn(
-                      "flex-1 text-xs",
-                      subtask.is_completed && "line-through text-muted-foreground"
-                    )}>
-                      {subtask.description}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={() => deleteSubtask.mutate(subtask.id)}
-                    >
-                      <Trash2 className="w-3 h-3 text-muted-foreground hover:text-destructive" />
-                    </Button>
-                  </div>
-                ))
+            <div className="border-t border-border/50 px-3 py-2 bg-background/50 space-y-3">
+              {/* Description */}
+              {demand.description && (
+                <div className="pb-2 border-b border-border/30">
+                  <p className="text-xs text-muted-foreground font-medium mb-1">Descrição:</p>
+                  <p className="text-xs text-foreground whitespace-pre-wrap">{demand.description}</p>
+                </div>
               )}
 
-              {/* Add Subtask */}
-              <div className="flex items-center gap-1.5 pt-1">
-                <Plus className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
-                <Input
-                  placeholder="Nova subtarefa..."
-                  value={newSubtaskDescription}
-                  onChange={(e) => setNewSubtaskDescription(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  className="h-7 text-xs bg-background"
-                />
-                <Button 
-                  size="sm" 
-                  onClick={handleAddSubtask}
-                  disabled={!newSubtaskDescription.trim()}
-                  className="h-7 text-xs px-2"
-                >
-                  +
-                </Button>
+              {/* Subtasks */}
+              <div>
+                <p className="text-xs text-muted-foreground font-medium mb-1.5">Subtarefas:</p>
+                {subtasks.length === 0 ? (
+                  <p className="text-xs text-muted-foreground italic">Nenhuma subtarefa</p>
+                ) : (
+                  subtasks.map((subtask) => (
+                    <div
+                      key={subtask.id}
+                      className="flex items-center gap-2 group mb-1.5"
+                    >
+                      <Checkbox
+                        checked={subtask.is_completed}
+                        onCheckedChange={(checked) => 
+                          toggleSubtask.mutate({ id: subtask.id, is_completed: !!checked })
+                        }
+                        className="h-3.5 w-3.5"
+                      />
+                      <span className={cn(
+                        "flex-1 text-xs",
+                        subtask.is_completed && "line-through text-muted-foreground"
+                      )}>
+                        {subtask.description}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => deleteSubtask.mutate(subtask.id)}
+                      >
+                        <Trash2 className="w-3 h-3 text-muted-foreground hover:text-destructive" />
+                      </Button>
+                    </div>
+                  ))
+                )}
+
+                {/* Add Subtask */}
+                <div className="flex items-center gap-1.5 pt-1">
+                  <Plus className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+                  <Input
+                    placeholder="Nova subtarefa..."
+                    value={newSubtaskDescription}
+                    onChange={(e) => setNewSubtaskDescription(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="h-7 text-xs bg-background"
+                  />
+                  <Button 
+                    size="sm" 
+                    onClick={handleAddSubtask}
+                    disabled={!newSubtaskDescription.trim()}
+                    className="h-7 text-xs px-2"
+                  >
+                    +
+                  </Button>
+                </div>
               </div>
             </div>
           )}
