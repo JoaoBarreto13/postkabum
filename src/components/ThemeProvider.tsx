@@ -25,6 +25,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const root = document.documentElement;
     
+    // Add transitioning class for smooth animation
+    root.classList.add('transitioning');
+    
     if (theme === 'dark') {
       root.classList.add('dark');
     } else {
@@ -32,6 +35,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
     
     localStorage.setItem('postit-theme', theme);
+    
+    // Remove transitioning class after animation completes
+    const timeout = setTimeout(() => {
+      root.classList.remove('transitioning');
+    }, 300);
+    
+    return () => clearTimeout(timeout);
   }, [theme]);
 
   const toggleTheme = () => {

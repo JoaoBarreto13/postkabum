@@ -67,6 +67,7 @@ const priorityColors: Record<DemandPriority, {
 
 export function KanbanCard({ demand, index }: KanbanCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showSubtasks, setShowSubtasks] = useState(false);
   const { deleteDemand, updateDemand, toggleSubtask, deleteSubtask } = useDemands();
 
   const subtasks = demand.subtasks || [];
@@ -218,49 +219,69 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
                 </div>
               )}
 
-              {/* Subtasks */}
-              <div>
-                <p className="text-[11px] uppercase tracking-wide text-muted-foreground font-semibold mb-2">
-                  Subtarefas ({completedSubtasks}/{totalSubtasks})
-                </p>
-                {subtasks.length === 0 ? (
-                  <p className="text-xs text-muted-foreground italic">Nenhuma subtarefa</p>
-                ) : (
-                  <div className="space-y-1.5">
-                    {subtasks.map((subtask) => (
-                      <div
-                        key={subtask.id}
-                        className={cn(
-                          "flex items-center gap-2 group py-1.5 px-2 rounded-lg transition-colors",
-                          "hover:bg-white/50 dark:hover:bg-black/20"
-                        )}
-                      >
-                        <Checkbox
-                          checked={subtask.is_completed}
-                          onCheckedChange={(checked) => 
-                            toggleSubtask.mutate({ id: subtask.id, is_completed: !!checked, demand_id: demand.id })
-                          }
-                          className="h-4 w-4 rounded-md"
-                        />
-                        <span className={cn(
-                          "flex-1 text-xs leading-relaxed",
-                          subtask.is_completed && "line-through text-muted-foreground"
-                        )}>
-                          {subtask.description}
-                        </span>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/10"
-                          onClick={() => deleteSubtask.mutate(subtask.id)}
+              {/* Subtasks with collapsible toggle */}
+              {totalSubtasks > 0 && (
+                <div>
+                  <button
+                    onClick={() => setShowSubtasks(!showSubtasks)}
+                    className="flex items-center gap-1.5 text-[11px] uppercase tracking-wide text-muted-foreground font-semibold hover:text-foreground transition-colors w-full text-left"
+                  >
+                    <ChevronRight 
+                      className={cn(
+                        "w-3.5 h-3.5 transition-transform duration-200",
+                        showSubtasks && "rotate-90"
+                      )} 
+                    />
+                    Subtarefas ({completedSubtasks}/{totalSubtasks})
+                  </button>
+                  
+                  {showSubtasks && (
+                    <div className="mt-2 space-y-1.5 animate-fade-in">
+                      {subtasks.map((subtask) => (
+                        <div
+                          key={subtask.id}
+                          className={cn(
+                            "flex items-center gap-2 group py-1.5 px-2 rounded-lg transition-colors",
+                            "hover:bg-white/50 dark:hover:bg-black/20"
+                          )}
                         >
-                          <Trash2 className="w-3 h-3 text-muted-foreground hover:text-destructive" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+                          <Checkbox
+                            checked={subtask.is_completed}
+                            onCheckedChange={(checked) => 
+                              toggleSubtask.mutate({ id: subtask.id, is_completed: !!checked, demand_id: demand.id })
+                            }
+                            className="h-4 w-4 rounded-md"
+                          />
+                          <span className={cn(
+                            "flex-1 text-xs leading-relaxed",
+                            subtask.is_completed && "line-through text-muted-foreground"
+                          )}>
+                            {subtask.description}
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/10"
+                            onClick={() => deleteSubtask.mutate(subtask.id)}
+                          >
+                            <Trash2 className="w-3 h-3 text-muted-foreground hover:text-destructive" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* No subtasks message */}
+              {totalSubtasks === 0 && (
+                <div>
+                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground font-semibold mb-1.5">
+                    Subtarefas
+                  </p>
+                  <p className="text-xs text-muted-foreground italic">Nenhuma subtarefa</p>
+                </div>
+              )}
             </div>
           )}
         </div>
