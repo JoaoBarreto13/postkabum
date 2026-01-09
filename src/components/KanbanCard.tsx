@@ -224,14 +224,16 @@ export function KanbanCard({ demand, index }: KanbanCardProps) {
                 <div>
                   <button
                     onClick={() => setShowSubtasks(!showSubtasks)}
-                    className="flex items-center gap-1.5 text-[11px] uppercase tracking-wide text-muted-foreground font-semibold hover:text-foreground transition-colors w-full text-left"
+                    className="flex items-center gap-1.5 text-[11px] uppercase tracking-wide text-muted-foreground font-semibold hover:text-foreground transition-colors w-full text-left group"
                   >
-                    <ChevronRight 
-                      className={cn(
-                        "w-3.5 h-3.5 transition-transform duration-200",
-                        showSubtasks && "rotate-90"
-                      )} 
-                    />
+                    <span className="flex items-center justify-center w-4 h-4 rounded transition-all duration-200 group-hover:bg-foreground/5">
+                      <ChevronRight 
+                        className={cn(
+                          "w-3.5 h-3.5 transition-all duration-300 ease-out",
+                          showSubtasks && "rotate-90 scale-110"
+                        )} 
+                      />
+                    </span>
                     Subtarefas ({completedSubtasks}/{totalSubtasks})
                   </button>
                   
