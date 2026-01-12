@@ -1,6 +1,6 @@
 # Post it in Kabum
 
-Um sistema de **gestão de demandas**, inspirado na simplicidade dos Post-its e na eficiência do Kanban. Focado em organização visual, priorização clara e acompanhamento de desempenho com **relatórios mensais automáticos**.
+Um sistema de gestão de demandas, inspirado na simplicidade dos Post-its e na eficiência do Kanban. Focado em organização visual, priorização clara e acompanhamento de desempenho com relatórios mensais automáticos.
 
 ![Project Status](https://img.shields.io/badge/status-active-success.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -20,13 +20,13 @@ Um sistema de **gestão de demandas**, inspirado na simplicidade dos Post-its e 
 
 ## Visão Geral
 
-**Post it in Kabum** é uma aplicação web projetada para maximizar a produtividade e a clareza visual. Ela permite:
+Post it in Kabum é uma aplicação web projetada para maximizar a produtividade e a clareza visual. Ela permite:
 
-* Organizar demandas em um **quadro Kanban visual**.
-* Trabalhar com **cards estilo Post-it**.
-* Dividir tarefas complexas em **subtópicos com checklist**.
-* Acompanhar o **progresso em tempo real**.
-* Medir a evolução através de **relatórios mensais automáticos**.
+* Organizar demandas em um quadro Kanban visual.
+* Trabalhar com cards estilo Post-it.
+* Dividir tarefas complexas em subtópicos com checklist.
+* Acompanhar o progresso em tempo real.
+* Medir a evolução através de relatórios mensais automáticos.
 
 Tudo isso em uma UI limpa, Bonita com Dark/Light mode desenvolvido pensando no conforto do usuário.
 
@@ -35,14 +35,14 @@ Tudo isso em uma UI limpa, Bonita com Dark/Light mode desenvolvido pensando no c
 ## Principais Funcionalidades
 
 ### Kanban Visual
-* **Colunas fixas e intuitivas:** "Aberta", "Em Andamento" e "Concluída".
+* **Colunas fixas e intuitivas:** Aberta, Em Andamento e Concluída.
 * **Drag & Drop:** Movimentação fluida de cards entre as colunas.
 * **Status Dinâmico:** Atualização automática conforme a movimentação.
 
 ### Detalhes e Checklists
 * **Subtópicos:** Quebre demandas maiores em tarefas menores.
 * **Visualização Rápida:** Checklist visível diretamente no card sem necessidade de abrir detalhes.
-* **Cálculo de Progresso:** Porcentagem (%) atualizada automaticamente ao marcar itens.
+* **Cálculo de Progresso:** Porcentagem é atualizada automaticamente ao marcar itens.
 
 ### Prioridades Visuais
 Identificação rápida através de cores suaves:
@@ -52,7 +52,7 @@ Identificação rápida através de cores suaves:
 
 ### Dashboard
 * Barra de progresso visual.
-* Contador de subtópicos (concluídos/total).
+* Contador de subtópicos como concluídos/total.
 * Indicador de tempo em aberto.
 
 ### Relatórios Automáticos
@@ -60,7 +60,7 @@ Geração de insights sem esforço manual:
 * Volume de demandas criadas vs. concluídas por mês.
 * Taxa de conversão (Percentual de conclusão).
 * Comparativo de desempenho mês a mês.
-* Cálculo automático de melhoria (em porcentagem).
+* Cálculo automático de melhoria em porcentagem.
 
 ---
 
