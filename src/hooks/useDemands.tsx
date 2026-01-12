@@ -163,6 +163,22 @@ export function useDemands() {
 
       if (error) throw error;
 
+      // Get all subtasks for this demand to check completion
+      const { data: allSubtasks, error: subtasksError } = await supabase
+        .from('subtasks')
+        .select('id, is_completed')
+        .eq('demand_id', data.demand_id);
+
+      if (subtasksError) throw subtasksError;
+
+      // Update the current subtask status in our local check
+      const updatedSubtasks = allSubtasks?.map(s => 
+        s.id === data.id ? { ...s, is_completed: data.is_completed } : s
+      ) || [];
+
+      const allCompleted = updatedSubtasks.length > 0 && updatedSubtasks.every(s => s.is_completed);
+      const anyCompleted = updatedSubtasks.some(s => s.is_completed);
+
       // Get current demand status
       const { data: demand, error: demandError } = await supabase
         .from('demands')
@@ -172,11 +188,29 @@ export function useDemands() {
 
       if (demandError) throw demandError;
 
-      // If demand is "open", move it to "in_progress" when any subtask is toggled
-      if (demand.status === 'open') {
+      // Determine new status
+      let newStatus: DemandStatus | null = null;
+
+      if (allCompleted) {
+        // All subtasks completed -> move to completed
+        newStatus = 'completed';
+      } else if (anyCompleted && demand.status === 'open') {
+        // Some subtasks completed and demand is open -> move to in_progress
+        newStatus = 'in_progress';
+      } else if (!anyCompleted && demand.status === 'completed') {
+        // No subtasks completed and was completed -> move back to in_progress
+        newStatus = 'in_progress';
+      }
+
+      if (newStatus && newStatus !== demand.status) {
+        const updateData: Record<string, unknown> = { status: newStatus };
+        if (newStatus === 'completed') {
+          updateData.completed_at = new Date().toISOString();
+        }
+        
         const { error: updateError } = await supabase
           .from('demands')
-          .update({ status: 'in_progress' })
+          .update(updateData)
           .eq('id', data.demand_id);
 
         if (updateError) throw updateError;
