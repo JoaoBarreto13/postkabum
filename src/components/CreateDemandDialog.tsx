@@ -91,7 +91,7 @@ export function CreateDemandDialog({ children }: CreateDemandDialogProps) {
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
-          <div className="space-y-4 overflow-y-auto flex-1 pr-2">
+          <div className="space-y-4 overflow-y-auto flex-1 px-1 -mx-1">
             <div className="space-y-2">
               <Label htmlFor="title">Título *</Label>
               <Input
