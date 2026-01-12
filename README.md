@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+**URL**: https://lovable.dev/projects/ef1e6743-6262-4285-a0b9-5fbb3cdcae1d
 
 ## How can I edit this code?
 
@@ -62,7 +62,7 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Simply open [Lovable](https://lovable.dev/projects/ef1e6743-6262-4285-a0b9-5fbb3cdcae1d) and click on Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
 
