@@ -168,17 +168,17 @@ export function CreateDemandDialog({ children }: CreateDemandDialogProps) {
               </div>
               
               {subtasks.length > 0 && (
-                <div className="space-y-2 mt-2 max-h-32 overflow-y-auto pr-1">
+                <div className="space-y-2 mt-2 max-h-32 overflow-y-auto overflow-x-hidden pr-1">
                   {subtasks.map((subtask, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-2 bg-secondary px-3 py-2 rounded-lg"
+                      className="flex items-start gap-2 bg-secondary px-3 py-2 rounded-lg min-w-0 w-full"
                     >
-                      <span className="flex-1 text-sm">{subtask}</span>
+                      <span className="flex-1 min-w-0 text-sm break-words whitespace-pre-wrap">{subtask}</span>
                       <button
                         type="button"
                         onClick={() => handleRemoveSubtask(index)}
-                        className="text-muted-foreground hover:text-destructive transition-colors"
+                        className="text-muted-foreground hover:text-destructive transition-colors flex-shrink-0"
                       >
                         <X className="w-4 h-4" />
                       </button>
