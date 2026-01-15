@@ -82,7 +82,8 @@ export function useDemands() {
       toast({ title: 'Demanda criada com sucesso!' });
     },
     onError: (error) => {
-      toast({ title: 'Erro ao criar demanda', description: error.message, variant: 'destructive' });
+      console.error('Create demand error:', error);
+      toast({ title: 'Erro ao criar demanda', description: 'Ocorreu um erro. Tente novamente.', variant: 'destructive' });
     },
   });
 
@@ -112,7 +113,8 @@ export function useDemands() {
       toast({ title: 'Demanda atualizada!' });
     },
     onError: (error) => {
-      toast({ title: 'Erro ao atualizar demanda', description: error.message, variant: 'destructive' });
+      console.error('Update demand error:', error);
+      toast({ title: 'Erro ao atualizar demanda', description: 'Ocorreu um erro. Tente novamente.', variant: 'destructive' });
     },
   });
 
@@ -130,7 +132,8 @@ export function useDemands() {
       toast({ title: 'Demanda excluída!' });
     },
     onError: (error) => {
-      toast({ title: 'Erro ao excluir demanda', description: error.message, variant: 'destructive' });
+      console.error('Delete demand error:', error);
+      toast({ title: 'Erro ao excluir demanda', description: 'Ocorreu um erro. Tente novamente.', variant: 'destructive' });
     },
   });
 
@@ -150,7 +153,8 @@ export function useDemands() {
       queryClient.invalidateQueries({ queryKey: ['demands'] });
     },
     onError: (error) => {
-      toast({ title: 'Erro ao adicionar subtarefa', description: error.message, variant: 'destructive' });
+      console.error('Add subtask error:', error);
+      toast({ title: 'Erro ao adicionar subtarefa', description: 'Ocorreu um erro. Tente novamente.', variant: 'destructive' });
     },
   });
 
@@ -220,7 +224,8 @@ export function useDemands() {
       queryClient.invalidateQueries({ queryKey: ['demands'] });
     },
     onError: (error) => {
-      toast({ title: 'Erro ao atualizar subtarefa', description: error.message, variant: 'destructive' });
+      console.error('Toggle subtask error:', error);
+      toast({ title: 'Erro ao atualizar subtarefa', description: 'Ocorreu um erro. Tente novamente.', variant: 'destructive' });
     },
   });
 
@@ -237,7 +242,8 @@ export function useDemands() {
       queryClient.invalidateQueries({ queryKey: ['demands'] });
     },
     onError: (error) => {
-      toast({ title: 'Erro ao excluir subtarefa', description: error.message, variant: 'destructive' });
+      console.error('Delete subtask error:', error);
+      toast({ title: 'Erro ao excluir subtarefa', description: 'Ocorreu um erro. Tente novamente.', variant: 'destructive' });
     },
   });
 
