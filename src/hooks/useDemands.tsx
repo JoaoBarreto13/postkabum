@@ -21,7 +21,7 @@ export function useDemands() {
 
       if (error) throw error;
 
-      // Fetch subtasks for all demands
+      // Buscar subtarefas para todas as demandas
       const demandIds = demands?.map(d => d.id) || [];
       if (demandIds.length === 0) return demands || [];
 
@@ -32,7 +32,7 @@ export function useDemands() {
 
       if (subtasksError) throw subtasksError;
 
-      // Map subtasks to demands
+      // Mapear subtarefas para suas respectivas demandas
       return demands?.map(demand => ({
         ...demand,
         subtasks: subtasks?.filter(s => s.demand_id === demand.id) || []
@@ -60,7 +60,7 @@ export function useDemands() {
 
       if (error) throw error;
 
-      // Create subtasks if provided
+      // Criar subtarefas caso tenham sido informadas
       if (data.subtasks && data.subtasks.length > 0) {
         const subtasksToInsert = data.subtasks.map(description => ({
           demand_id: demand.id,
@@ -167,7 +167,7 @@ export function useDemands() {
 
       if (error) throw error;
 
-      // Get all subtasks for this demand to check completion
+      // Buscar todas as subtarefas dessa demanda para verificar conclusão
       const { data: allSubtasks, error: subtasksError } = await supabase
         .from('subtasks')
         .select('id, is_completed')
@@ -175,7 +175,7 @@ export function useDemands() {
 
       if (subtasksError) throw subtasksError;
 
-      // Update the current subtask status in our local check
+      // Atualizar localmente o status da subtarefa modificada
       const updatedSubtasks = allSubtasks?.map(s => 
         s.id === data.id ? { ...s, is_completed: data.is_completed } : s
       ) || [];
@@ -183,7 +183,7 @@ export function useDemands() {
       const allCompleted = updatedSubtasks.length > 0 && updatedSubtasks.every(s => s.is_completed);
       const anyCompleted = updatedSubtasks.some(s => s.is_completed);
 
-      // Get current demand status
+      // Buscar status atual da demanda
       const { data: demand, error: demandError } = await supabase
         .from('demands')
         .select('status')
@@ -192,17 +192,17 @@ export function useDemands() {
 
       if (demandError) throw demandError;
 
-      // Determine new status
+      // Determinar novo status
       let newStatus: DemandStatus | null = null;
 
       if (allCompleted) {
-        // All subtasks completed -> move to completed
+        // Todas as subtarefas concluídas → mover para concluída
         newStatus = 'completed';
       } else if (anyCompleted && demand.status === 'open') {
-        // Some subtasks completed and demand is open -> move to in_progress
+        // Algumas subtarefas concluídas e demanda aberta → mover para em andamento
         newStatus = 'in_progress';
       } else if (!anyCompleted && demand.status === 'completed') {
-        // No subtasks completed and was completed -> move back to in_progress
+        // Nenhuma subtarefa concluída e estava concluída → voltar para em andamento
         newStatus = 'in_progress';
       }
 
@@ -285,7 +285,7 @@ export function useMonthlyMetrics() {
       : 0,
   };
 
-  // Calculate previous month metrics for comparison
+  // Calcular métricas do mês anterior para comparação
   const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
   const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
 
