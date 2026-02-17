@@ -91,7 +91,7 @@ export default function Auth() {
             <LayoutDashboard className="w-7 h-7 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="font-bold text-2xl">DemandFlow</h1>
+            <h1 className="font-bold text-2xl">Post it in Kabum</h1>
             <p className="text-sm text-muted-foreground">Gestão de Demandas</p>
           </div>
         </div>
