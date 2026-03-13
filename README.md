@@ -46,9 +46,9 @@ Tudo isso em uma UI limpa, Bonita com Dark/Light mode desenvolvido pensando no c
 
 ### Prioridades Visuais
 Identificação rápida através de cores suaves:
-* 🔴 **Alta:** Vermelho suave
-* 🟡 **Média:** Amarelo Post-it
-* 🟢 **Baixa:** Verde pastel
+* **Alta:** Vermelho suave
+* **Média:** Amarelo Post-it
+* **Baixa:** Verde pastel
 
 ### Dashboard
 * Barra de progresso visual.
@@ -106,7 +106,7 @@ Geração de insights sem esforço manual:
 
 **UX/UI:** Uma experiência de uso simples, suave e elegante.
 
-## 📝 Licença
+## Licença
 Este projeto está licenciado sob a licença MIT.
 
-<p align="center"> Desenvolvido com ❤️ por <a href="https://github.com/JoaoBarreto13">João Barreto</a> </p>
+<p align="center"> Desenvolvido com amor por <a href="https://github.com/JoaoBarreto13">João Barreto</a> </p>
